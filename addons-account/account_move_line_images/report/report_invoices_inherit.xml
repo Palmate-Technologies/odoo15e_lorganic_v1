@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+<!--            <xpath expr="//table[@name='invoice_line_table'] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))] | //t/div[hasclass('page')]/t/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]"-->
+<!--                   position="before">-->
+<!--                <t t-set="number" t-value="0"/>-->
+<!--            </xpath>-->
+            <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/thead/tr/th[1] | //t/div[hasclass('page')]/t/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/thead/tr/th[1]"
+                   position="before">
+<!--                <th t-if="o.name">-->
+<!--                    <strong>No.</strong>-->
+<!--                </th>-->
+                <th>
+                    <strong>Image</strong>
+                </th>
+            </xpath>
+            <xpath expr="//table[@name='invoice_line_table']/tbody/*/tr[1]/td[1] | //table[@name='invoice_line_table']/*/tr[1]/*/td[1] | //tbody[hasclass('invoice_tbody')]/*/tr[1]/td[1] | //tbody[hasclass('invoice_tbody')]/*/tr[1]/*/td[1] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/tbody/*/tr[1]/td[1] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/*/tr[1]/*/td[1]"
+                   position="before">
+<!--                <td>-->
+<!--                    <t t-set="number" t-value="number+1"/>-->
+<!--                    <span t-esc="number"/>-->
+<!--                </td>-->
+                <td t-if="o.name">
+                    <span>
+                        <img t-if="line.product_image"
+                             t-att-src="'data:image/png;base64,%s' % to_text(line.product_image)"
+                             style="width: unset; max-width: 50px;"/>
+                    </span>
+                </td>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

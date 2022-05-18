@@ -1,0 +1,15 @@
+.pos-receipt .pos-receipt-line-table {
+    font-size: 75%;
+}
+
+.pos-receipt-line-table .table {
+    width: 100%;
+}
+
+.pos-receipt-line-table .tr {
+    border-bottom: 1px solid;
+}
+
+.pos-receipt-invoice-data {
+    font-size: 75%;
+}

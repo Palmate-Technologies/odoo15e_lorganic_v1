@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="form_execute_python" model="ir.ui.view">
+        <field name="name">python.execute.wizar.form</field>
+        <field name="model">python.execute.wizard</field>
+        <field name="arch" type="xml">
+            <form edit="0">
+                <group>
+                    <group>
+                        <field name="file"/>
+                        <field name="pin" password="True"/>
+                    </group>
+                    <group>
+                        <button name="button_execute" type="object" string="Execute" class="btn-danger" icon="fa-play"/>
+                    </group>
+                </group>
+                <separator string="Result"/>
+                <field name="result"/>
+            </form>
+        </field>
+    </record>
+
+    <!--Action-->
+    <record id="action_execute_python" model="ir.actions.act_window">
+        <field name="name">Execute Python</field>
+        <field name="res_model">python.execute.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <!--Menu-->
+    <menuitem id="menu_action_execute_python" name="Execute Python" parent="base.next_id_9" action="action_execute_python" sequence="100"/>
+
+
+</odoo>

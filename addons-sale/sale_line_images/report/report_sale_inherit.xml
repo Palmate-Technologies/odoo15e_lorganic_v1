@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/thead/tr/th[1] | //t/div[hasclass('page')]/t/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/thead/tr/th[1]"
+                   position="before">
+                <th>
+                    <strong>Image</strong>
+                </th>
+            </xpath>
+            <xpath expr="//tbody[hasclass('sale_tbody')]/*/tr/td[1] | //tbody[hasclass('sale_tbody')]/*/tr/*/td[1] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/tbody/*/tr/td[1] | //t/div[hasclass('page')]/table[hasclass('table') and (hasclass('o_main_table') or hasclass('table-condensed') or hasclass('table-sm'))]/*/tr/*/td[1]"
+                   position="before">
+                <td>
+                    <span>
+                        <img t-if="line.product_image"
+                             t-att-src="'data:image/png;base64,%s' % to_text(line.product_image)"
+                             style="width: unset; max-width: 50px;"/>
+                    </span>
+                </td>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
