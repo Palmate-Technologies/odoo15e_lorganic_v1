@@ -127,7 +127,6 @@
                         <td>
                             <t t-esc="line.product_name" /> <br />
                             <t t-esc="line.product_arabic_name" />
-                            <t t-esc="line.product_name" />
                         </td>
                         <td class="pos-receipt-right-align">
                             <t t-esc="env.pos.format_currency(line.price)" />
@@ -200,34 +199,33 @@
                 </table>
                 </div>
 
-             <div class="pos-center-align">
-                 <div><t t-esc="receipt.name" /></div>
-                    <div t-attf-id="qrcode_container">
-                        <div id="qrcodeimage"></div>
-                            <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>
-                    </div>
-                </div>
-
 <!--             <div class="pos-center-align">-->
 <!--                    <div t-attf-id="qrcode_container">-->
 <!--                        <div id="qrcodeimage"></div>-->
-<!--                        <script type="text/javascript">-->
-
-<!--                            var qr_data = "<t t-esc="receipt.qr_data" />";-->
-<!--                            var qrcode = new QRCode("qrcodeimage" , {-->
-<!--                                text: qr_data,-->
-<!--                                width: 180,-->
-<!--                                height: 180,-->
-<!--                                colorDark : "#000000",-->
-<!--                                colorLight : "#ffffff",-->
-<!--                                correctLevel : QRCode.CorrectLevel.H-->
-<!--                            });-->
-<!--                            qrcode.makeCode(qr_data);-->
-
-<!--                            $("#qrcodeimage > img").css({"margin":"20px auto"});-->
-<!--                        </script>-->
+<!--                            <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>-->
 <!--                    </div>-->
 <!--                </div>-->
+
+             <div class="pos-center-align">
+                    <div t-attf-id="qrcode_container">
+                        <div id="qrcodeimage"></div>
+                        <script type="text/javascript">
+
+                            var qr_data = "<t t-esc="receipt.qr_data" />";
+                            var qrcode = new QRCode("qrcodeimage" , {
+                                text: qr_data,
+                                width: 180,
+                                height: 180,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                            qrcode.makeCode(qr_data);
+
+                            $("#qrcodeimage > img").css({"margin":"20px auto"});
+                        </script>
+                    </div>
+                </div>
 
 
 

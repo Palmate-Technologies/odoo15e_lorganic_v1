@@ -8,15 +8,15 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
     models.load_fields('product.product',['english_name','arabic_name', 'name_arabic']);
 
     models.Order = models.Order.extend({
-//        export_for_printing: function() {
-//            var result = _super_order.export_for_printing.apply(this,arguments);
-//            var company = this.pos.company;
-//
-//            result.company.arabic_name = company.arabic_name;
-//            result.name_compressed = result.name.substring(6);
-//
-//            return result;
-//        },
+        export_for_printing: function() {
+            var result = _super_order.export_for_printing.apply(this,arguments);
+            var company = this.pos.company;
+
+            result.company.arabic_name = company.arabic_name;
+            result.name_compressed = result.name.substring(6);
+
+            return result;
+        },
 
 
         export_for_printing: function() {
@@ -24,7 +24,7 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
             var company = this.pos.company;
             result.company.arabic_name = company.arabic_name;
             result.name_compressed = result.name.substring(6);
-//            result.qr_data =this.compute_sa_qr_code(result);
+            result.qr_data =this.compute_sa_qr_code(result);
 //            result.qr_data =this.compute_sa_qr_code(this.company.name, this.company.vat, this.date.isostring, this.total_with_tax, this.total_tax);
             return result;
         },
