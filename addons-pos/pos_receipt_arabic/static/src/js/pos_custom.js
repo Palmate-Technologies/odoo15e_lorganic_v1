@@ -8,21 +8,19 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
     models.load_fields('product.product',['english_name','arabic_name', 'name_arabic']);
 
     models.Order = models.Order.extend({
+//        export_for_printing: function() {
+//            var result = _super_order.export_for_printing.apply(this,arguments);
+//            var company = this.pos.company;
+//
+//            result.company.arabic_name = company.arabic_name;
+//            result.name_compressed = result.name.substring(6);
+//
+//            return result;
+//        },
+
+
         export_for_printing: function() {
             var result = _super_order.export_for_printing.apply(this,arguments);
-            var company = this.pos.company;
-
-            result.company.arabic_name = company.arabic_name;
-            result.name_compressed = result.name.substring(6);
-
-            return result;
-        },
-
-
-        export_for_printing: function() {
-            var result = _super_order.export_for_printing.apply(this,arguments);
-//            result.qr_data = this.get_qr_data(result);
-//            result.qr_data = this.get_qr_data(result);
             result.qr_data =this.compute_sa_qr_code(result);
             return result;
         },
@@ -71,57 +69,6 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
                 const name_length_encoding = [name_byte_array.length];
                 return name_tag_encoding.concat(name_length_encoding, name_byte_array);
             },
-
-
-
-//         get_qr_data: function(receipt) {
-//            function ConvertStringToHex(str) {
-//                  var arr = [];
-//                  for (var i = 0; i < str.length; i++) {
-//                         arr[i] = str.charCodeAt(i).toString(16);
-//                  }
-//                  return arr.join("");
-//           }
-//
-//            function getTlvForValue(tagNum, tagValue) {
-//
-//                var tagBuf = tagNum.toString(16).padStart(2,"0");
-//
-//                var tagValueLenBuf = tagValue.length.toString(16).padStart(2,"0");
-//                var tagValueBuf = ConvertStringToHex(tagValue);
-//
-//                var bufsArray = [tagBuf, tagValueLenBuf, tagValueBuf];
-//
-//                return bufsArray.join("");
-//
-//            }
-//
-//            var company = this.pos.company;
-//            var dict = {
-//                1: company.name,
-//                2: company.vat || "",
-//                3: receipt.date.isostring,
-//                4: receipt.total_with_tax.toFixed(2).toString(),
-//                5: receipt.total_tax.toFixed(2).toString()
-//            }
-//
-//
-//            var tlvBufsArray = [];
-//            for(var tag in dict) {
-//                var tlvBufs = getTlvForValue(tag, dict[tag]);
-//                tlvBufsArray.push(tlvBufs);
-//            }
-//
-//
-//            var qrCodeBuf = tlvBufsArray.join("");
-//            var qrCodeB64 = btoa(qrCodeBuf);
-//
-//            return qrCodeB64;
-//        },
-
-
-    });
-
 
     models.Orderline = models.Orderline.extend({
         export_for_printing: function(){
