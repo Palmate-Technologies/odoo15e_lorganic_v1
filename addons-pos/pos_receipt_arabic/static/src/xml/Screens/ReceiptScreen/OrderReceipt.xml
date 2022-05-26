@@ -199,33 +199,33 @@
                 </table>
                 </div>
 
-             <div class="pos-center-align">
-                    <div t-attf-id="qrcode_container">
-                        <div id="qrcodeimage"></div>
-                            <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>
-                    </div>
-                </div>
-
 <!--             <div class="pos-center-align">-->
 <!--                    <div t-attf-id="qrcode_container">-->
 <!--                        <div id="qrcodeimage"></div>-->
-<!--                        <script type="text/javascript">-->
-
-<!--                            var qr_data = "<t t-esc="receipt.qr_data" />";-->
-<!--                            var qrcode = new QRCode("qrcodeimage" , {-->
-<!--                                text: qr_data,-->
-<!--                                width: 180,-->
-<!--                                height: 180,-->
-<!--                                colorDark : "#000000",-->
-<!--                                colorLight : "#ffffff",-->
-<!--                                correctLevel : QRCode.CorrectLevel.H-->
-<!--                            });-->
-<!--                            qrcode.makeCode(qr_data);-->
-
-<!--                            $("#qrcodeimage > img").css({"margin":"20px auto"});-->
-<!--                        </script>-->
+<!--                            <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>-->
 <!--                    </div>-->
 <!--                </div>-->
+
+             <div class="pos-center-align">
+                    <div t-attf-id="qrcode_container">
+                        <div id="qrcodeimage"></div>
+                        <script type="text/javascript">
+
+                            var qr_data = "<t t-esc="receipt.qr_data" />";
+                            var qrcode = new QRCode("qrcodeimage" , {
+                                text: qr_data,
+                                width: 150,
+                                height: 150,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                            qrcode.makeCode(qr_data);
+
+                            $("#qrcodeimage > img").css({"margin":"20px auto"});
+                        </script>
+                    </div>
+                </div>
 
 
 
