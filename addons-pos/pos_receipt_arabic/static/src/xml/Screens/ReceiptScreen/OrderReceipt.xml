@@ -38,7 +38,8 @@
                 <table style="width:100%">
                     <tr>
                         <td style="text-align:left">Invoice Number</td>
-                        <td style="text-align:center"><t t-esc="receipt.name_compressed" /></td>
+<!--                        <td style="text-align:center"><t t-esc="receipt.name_compressed" /></td>-->
+                        <td style="text-align:center"><t t-esc="receipt.name" /></td>
                         <td style="text-align:right">رقم الفاتورة</td>
                     </tr>
                     <tr>
@@ -201,23 +202,30 @@
              <div class="pos-center-align">
                     <div t-attf-id="qrcode_container">
                         <div id="qrcodeimage"></div>
-                        <script type="text/javascript">
-
-                            var qr_data = "<t t-esc="receipt.qr_data" />";
-                            var qrcode = new QRCode("qrcodeimage" , {
-                                text: qr_data,
-                                width: 180,
-                                height: 180,
-                                colorDark : "#000000",
-                                colorLight : "#ffffff",
-                                correctLevel : QRCode.CorrectLevel.H
-                            });
-                            qrcode.makeCode(qr_data);
-
-                            $("#qrcodeimage > img").css({"margin":"20px auto"});
-                        </script>
+                            <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>
                     </div>
                 </div>
+
+<!--             <div class="pos-center-align">-->
+<!--                    <div t-attf-id="qrcode_container">-->
+<!--                        <div id="qrcodeimage"></div>-->
+<!--                        <script type="text/javascript">-->
+
+<!--                            var qr_data = "<t t-esc="receipt.qr_data" />";-->
+<!--                            var qrcode = new QRCode("qrcodeimage" , {-->
+<!--                                text: qr_data,-->
+<!--                                width: 180,-->
+<!--                                height: 180,-->
+<!--                                colorDark : "#000000",-->
+<!--                                colorLight : "#ffffff",-->
+<!--                                correctLevel : QRCode.CorrectLevel.H-->
+<!--                            });-->
+<!--                            qrcode.makeCode(qr_data);-->
+
+<!--                            $("#qrcodeimage > img").css({"margin":"20px auto"});-->
+<!--                        </script>-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
 
