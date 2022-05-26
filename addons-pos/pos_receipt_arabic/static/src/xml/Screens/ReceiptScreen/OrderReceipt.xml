@@ -127,6 +127,7 @@
                         <td>
                             <t t-esc="line.product_name" /> <br />
                             <t t-esc="line.product_arabic_name" />
+                            <t t-esc="line.product_name" />
                         </td>
                         <td class="pos-receipt-right-align">
                             <t t-esc="env.pos.format_currency(line.price)" />
@@ -200,6 +201,7 @@
                 </div>
 
              <div class="pos-center-align">
+                 <div><t t-esc="receipt.name" /></div>
                     <div t-attf-id="qrcode_container">
                         <div id="qrcodeimage"></div>
                             <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>
