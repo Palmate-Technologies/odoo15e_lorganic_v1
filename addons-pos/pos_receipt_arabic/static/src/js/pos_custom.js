@@ -21,7 +21,8 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
 
         export_for_printing: function() {
             var result = _super_order.export_for_printing.apply(this,arguments);
-            result.qr_data =this.compute_sa_qr_code(result);
+//            result.qr_data =this.compute_sa_qr_code(result);
+            result.qr_data =this.compute_sa_qr_code(this.company.name, this.company.vat, this.date.isostring, this.total_with_tax, this.total_tax);
             return result;
         },
 
