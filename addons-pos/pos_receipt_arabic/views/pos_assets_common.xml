@@ -8,6 +8,7 @@
 
             <script type="text/javascript" src="/pos_receipt_arabic/static/src/lib/qrcode.js"/>
             <script type="text/javascript" src="/pos_receipt_arabic/static/src/js/pos_custom.js"/>
+            <script type="text/javascript" src="/pos_receipt_arabic/static/src/js/models.js"/>
         </xpath>
     </template>
 
