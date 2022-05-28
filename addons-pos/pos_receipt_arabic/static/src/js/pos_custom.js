@@ -6,7 +6,7 @@ odoo.define('pos_receipt_arabic.OrderReceipt', function (require) {
 
     var models = require('point_of_sale.models');
     models.load_fields('res.company',['arabic_name']);
-    models.load_fields('product.product',['english_name','arabic_name', 'name_arabic']);
+    models.load_fields('product.product',['name_arabic']);
 
     const OrderReceiptQRCodeSA = OrderReceipt =>
         class extends OrderReceipt {
@@ -61,8 +61,8 @@ odoo.define('pos_receipt_arabic.OrderReceipt', function (require) {
     models.Orderline = models.Orderline.extend({
         export_for_printing: function(){
             var result = _super_Orderline.export_for_printing.apply(this,arguments);
-            result.product_name = this.get_product().english_name;
-            result.product_arabic_name = this.get_product().arabic_name;
+            result.product_name = this.get_product().display_name;
+            result.product_arabic_name = this.get_product().name_arabic;
             return result;
         },
     });
