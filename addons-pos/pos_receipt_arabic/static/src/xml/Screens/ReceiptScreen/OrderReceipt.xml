@@ -126,7 +126,6 @@
                     <tr style="font-size:12px">
                         <td>
                             <t t-esc="line.product_name" /> <br />
-                            Arabic
                             <t t-esc="line.product_arabic_name" />
                         </td>
                         <td class="pos-receipt-right-align">

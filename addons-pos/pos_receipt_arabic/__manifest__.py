@@ -1,6 +1,6 @@
 {
     'name': 'POS Arabic Receipt',
-    'version': '15.0.0.5',
+    'version': '15.0.0.6',
     'sequence': 1,
     'summary': 'Pierce PPA',
     'description': """
