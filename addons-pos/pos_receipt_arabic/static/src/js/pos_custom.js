@@ -3,6 +3,7 @@ odoo.define('pos_receipt_arabic.OrderReceipt', function (require) {
 
     const OrderReceipt = require('point_of_sale.OrderReceipt')
     const Registries = require('point_of_sale.Registries');
+    var models = require('point_of_sale.models');
 
     const OrderReceiptQRCodeSA = OrderReceipt =>
         class extends OrderReceipt {
@@ -53,4 +54,13 @@ odoo.define('pos_receipt_arabic.OrderReceipt', function (require) {
         }
     Registries.Component.extend(OrderReceipt, OrderReceiptQRCodeSA)
     return OrderReceiptQRCodeSA
+
+    models.Orderline = models.Orderline.extend({
+        export_for_printing: function(){
+            var result = _super_Orderline.export_for_printing.apply(this,arguments);
+            result.product_name = this.get_product().english_name;
+            result.product_arabic_name = this.get_product().arabic_name;
+            return result;
+        },
+    });
 });
