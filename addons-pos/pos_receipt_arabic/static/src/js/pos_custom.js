@@ -1,45 +1,30 @@
-odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
+odoo.define('pos_receipt_arabic.OrderReceipt', function (require) {
+    'use strict';
 
-    var models = require('point_of_sale.models');
-    var _super_order = models.Order.prototype;
-    var _super_Orderline = models.Orderline.prototype;
+    const OrderReceipt = require('point_of_sale.OrderReceipt')
+    const Registries = require('point_of_sale.Registries');
 
-    models.load_fields('res.company',['arabic_name']);
-    models.load_fields('product.product',['english_name','arabic_name', 'name_arabic']);
+    const OrderReceiptQRCodeSA = OrderReceipt =>
+        class extends OrderReceipt {
+            mounted() {
+                super.mounted(...arguments);
+                if (this._receiptEnv.order.pos.company.country.code === 'SA') {
+                    const codeWriter = new window.ZXing.BrowserQRCodeSvgWriter()
+                    codeWriter.writeToDom('#qrcode', this._receiptEnv.receipt.qr_code, 150, 150);
+                }
+            }
 
-    models.Order = models.Order.extend({
-        export_for_printing: function() {
-            var result = _super_order.export_for_printing.apply(this,arguments);
-            var company = this.pos.company;
+            get receiptEnv() {
+                if (this._receiptEnv.order.pos.company.country.code === 'SA') {
+                    let receipt_render_env = super.receiptEnv;
+                    let receipt = receipt_render_env.receipt;
+                    receipt.qr_code = this.compute_sa_qr_code(receipt.company.name, receipt.company.vat, receipt.date.isostring, receipt.total_with_tax, receipt.total_tax);
+                    return receipt_render_env;
+                }
+                return super.receiptEnv;
+            }
 
-            result.company.arabic_name = company.arabic_name;
-            result.name_compressed = result.name.substring(6);
-
-            return result;
-        },
-
-
-        export_for_printing: function() {
-            var result = _super_order.export_for_printing.apply(this,arguments);
-            var company = this.pos.company;
-            result.company.arabic_name = company.arabic_name;
-            result.name_compressed = result.name.substring(6);
-            result.qr_data =this.compute_sa_qr_code(result);
-//            result.qr_data =this.compute_sa_qr_code(this.company.name, this.company.vat, this.date.isostring, this.total_with_tax, this.total_tax);
-            return result;
-        },
-
-
-         compute_sa_qr_code: function(receipt) {
-
-                var company = this.pos.company;
-                var name = company.name
-                var vat = company.vat || ""
-                var date_isostring = receipt.date.isostring
-                var amount_total = receipt.total_with_tax.toFixed(2).toString()
-                var amount_tax = receipt.total_tax.toFixed(2).toString()
-
-
+            compute_sa_qr_code(name, vat, date_isostring, amount_total, amount_tax) {
                 /* Generate the qr code for Saudi e-invoicing. Specs are available at the following link at page 23
                 https://zatca.gov.sa/ar/E-Invoicing/SystemsDevelopers/Documents/20210528_ZATCA_Electronic_Invoice_Security_Features_Implementation_Standards_vShared.pdf
                 */
@@ -56,23 +41,16 @@ odoo.define('pos_receipt_arabic.pos_custom', function(require) {'use strict';
                     binary += String.fromCharCode(str_to_encode[i]);
                 }
                 return btoa(binary);
-            },
+            }
 
-              _compute_qr_code_field(tag, field) {
+            _compute_qr_code_field(tag, field) {
                 const textEncoder = new TextEncoder();
                 const name_byte_array = Array.from(textEncoder.encode(field));
                 const name_tag_encoding = [tag];
                 const name_length_encoding = [name_byte_array.length];
                 return name_tag_encoding.concat(name_length_encoding, name_byte_array);
-            },
-
-    models.Orderline = models.Orderline.extend({
-        export_for_printing: function(){
-            var result = _super_Orderline.export_for_printing.apply(this,arguments);
-            result.product_name = this.get_product().english_name;
-            result.product_arabic_name = this.get_product().arabic_name;
-            return result;
-        },
-    });
-
+            }
+        }
+    Registries.Component.extend(OrderReceipt, OrderReceiptQRCodeSA)
+    return OrderReceiptQRCodeSA
 });
