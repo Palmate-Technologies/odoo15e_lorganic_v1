@@ -5,6 +5,7 @@ var models = require('point_of_sale.models');
 
     var models = require('point_of_sale.models');
     models.load_fields('product.product', ['name_arabic']);
+    var _super_Orderline = models.Orderline.prototype;
 
     models.Orderline = models.Orderline.extend({
         export_for_printing: function(){
