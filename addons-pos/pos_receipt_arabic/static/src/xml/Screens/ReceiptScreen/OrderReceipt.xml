@@ -196,6 +196,11 @@
                     <tr>
                         <td colspan="4"><hr /></td>
                     </tr>
+                    <t t-foreach="receipt.paymentlines" t-as="payment">
+                        <tr>
+                            <td colspan="4"><t t-esc="payment.name"/></td>
+                        </tr>
+                    </t>
                 </table>
                 </div>
 
