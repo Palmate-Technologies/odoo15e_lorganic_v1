@@ -172,6 +172,9 @@ class ImportPosOrder(models.TransientModel):
                         if product_ids:
                             product_id = product_ids[0].id
                             product_data[barcode] = product_id
+                    if not product_id:
+                        raise UserError(('No Product found with Barcode:',barcode))
+
                 product = Product.browse(product_id)
                 tax_ids = []
                 tax_name = pos_line.get('tax_name',False)
