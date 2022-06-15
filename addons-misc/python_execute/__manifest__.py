@@ -25,7 +25,7 @@
     'website': "",
     'license': 'AGPL-3',
 
-    'depends': ['base'],
+    'depends': ['base','product'],
 
     'data': [
         'views/execute_view.xml',

@@ -47,7 +47,11 @@
                         <td style="text-align:center"><t t-esc="receipt.date.localestring or order.validation_date" /></td>
                         <td style="text-align:right">تاریخ اصدار الفاتورة</td>
                     </tr>
-
+                    <tr>
+                        <td style="text-align:left">Customer Name</td>
+                        <td style="text-align:center"><t t-esc="env.pos.get_client().name" t-if="env.pos.get_client()"/></td>
+                        <td style="text-align:right">العميل</td>
+                    </tr>
                 </table>
             </div>
             <br />
@@ -196,6 +200,11 @@
                     <tr>
                         <td colspan="4"><hr /></td>
                     </tr>
+                    <t t-foreach="receipt.paymentlines" t-as="payment">
+                        <tr>
+                            <td colspan="4"><t t-esc="payment.name"/></td>
+                        </tr>
+                    </t>
                 </table>
                 </div>
 
