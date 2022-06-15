@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--    <template id="external_layout">-->
+    <!--        <t t-if="not o" t-set="o" t-value="doc"/>-->
+    <!--        <t t-if="not company">-->
+    <!--                <t t-if="company_id">-->
+    <!--                    <t t-set="company" t-value="company_id"/>-->
+    <!--                </t>-->
+    <!--                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">-->
+    <!--                    <t t-set="company" t-value="o.company_id.sudo()"/>-->
+    <!--                </t>-->
+    <!--                <t t-else="else">-->
+    <!--                    <t t-set="company" t-value="res_company"/>-->
+    <!--                </t>-->
+    <!--        </t>-->
+    <!--        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">-->
+    <!--        </div>-->
+    <!--        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}"-->
+    <!--             t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});"-->
+    <!--             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"-->
+    <!--             t-att-data-oe-lang="o and o.env.context.get('lang')">-->
+    <!--            <div class="pt-5">-->
+    <!--                &lt;!&ndash; This div ensures that the address is not cropped by the header. &ndash;&gt;-->
+    <!--                <t t-call="web.address_layout"/>-->
+    <!--            </div>-->
+    <!--            <t t-out="0"/>-->
+    <!--        </div>-->
+    <!--        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">-->
+    <!--        </div>-->
+    <!--    </template>-->
+
+
+    <template id="report_print_label">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"
+                             style="max-height: 120px;"/>
+                    </div>
+                    <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                    </div>
+                    <div class="page">
+                        <table style="width:50%;">
+                            <tr>
+                                <td colspan="3" style="border:1px solid #a3a3a3; text-align:center; padding:4px">
+                                    <span class="text-center" t-field="o.product_id.responsible_id.company_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Patient:</td>
+                                <td colspan="2" style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <span t-esc="o.patient_name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Tel:</td>
+                                <td style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <span t-esc="o.tel"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Medicine:</td>
+                                <td colspan="2" style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <span t-esc="o.product_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Dose:</td>
+                                <td colspan="2" style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <span t-esc="o.dose"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Batch:</td>
+                                <td colspan="2" style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <span t-field="o.batch"/>
+                                    <!--                                    <span t-field="o.product_id.Lot.name"/>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #a3a3a3; text-align:center; padding:4px">Expiry:</td>
+                                <td colspan="2" style="border:1px solid #a3a3a3; text-align:left; padding:4px">
+                                    <!--                                    <t t-set="exp_date" t-value="exp_dates[str(product.id)]"/>-->
+                                    <span t-field="o.expiry_date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border:1px solid #a3a3a3; text-align:center; padding:4px">
+                                    Pharmacist:
+                                    <span t-field="o.pharmacist"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_print_label_wizard" model="ir.actions.report">
+        <field name="name">Label</field>
+        <field name="model">print.label.wizard</field>
+        <field name="binding_model_id" ref="model_print_label_wizard"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">print_label_custom.report_print_label</field>
+        <field name="report_file">print_label_custom.report_print_label</field>
+    </record>
+
+</odoo>
