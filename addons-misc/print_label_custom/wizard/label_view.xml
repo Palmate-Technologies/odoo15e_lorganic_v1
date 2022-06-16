@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_form_wizard_print_label" model="ir.ui.view">
+        <field name="name">print.label.wizard</field>
+        <field name="model">print.label.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+<!--                        <field name="pharmacy_name"/>-->
+                        <field name="patient_name"/>
+                        <field name="tel"/>
+                        <field name="pharmacist"/>
+                    </group>
+                    <group>
+                        <field name="product_id" required="1"/>
+                        <field name="dose"/>
+                        <field name="batch"/>
+                        <field name="expiry_date"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_label" string="Print" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_print_label" model="ir.actions.act_window">
+        <field name="name">Print Label</field>
+        <field name="res_model">print.label.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_print_label" parent="point_of_sale.menu_point_of_sale" action="action_print_label" sequence="200"/>
+
+</odoo>
