@@ -2,7 +2,9 @@
 <odoo>
 
     <template id="l10n_gcc_invoice.arabic_english_invoice">
+
         <t t-call="l10n_gcc_invoice.external_layout_standard">
+<!--        <t t-call="l10n_sa_invoice_custom.external_layout_standard">-->
             <t t-set="o_sec" t-value="o.with_context(lang='ar_001')"/>
             <t t-set="o" t-value="o.with_context(lang='en_US')"/>
 
@@ -439,7 +441,7 @@
                  </table>
 
                 <p name="comment">
-                    <div class="row" style=" font-size:12px">
+                    <div class="row" style="page-break-inside: avoid;font-size:12px">
                             <div class="col-10 text-justify">
                                 <span t-field="o.narration"/>
                             </div>
