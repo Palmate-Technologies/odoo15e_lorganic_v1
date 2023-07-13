@@ -19,18 +19,48 @@ class PosSession(models.Model):
         the context from the former method with the proper analytic account id.
         """
         account_analytic_id = self.env.context.get("account_analytic_id")
-        if account_analytic_id:
-            partial_move_line_vals.update({"analytic_account_id": account_analytic_id})
+        if account_analytic_id and partial_move_line_vals.get('account_id',False):
+            account = self.env['account.account'].browse(partial_move_line_vals['account_id'])
+            if account._check_account_pnl():
+                partial_move_line_vals.update({"analytic_account_id": account_analytic_id})
         return super()._credit_amounts(
             partial_move_line_vals, amount, amount_converted, force_company_currency
         )
 
-    def _get_sale_vals(self, key, amount, amount_converted, tax_amount):
-        """The method that allowed to add the analytic account to the sales items
-        has been dropped in v13, so we have to add it in the moment the sales
-        items values are prepared.
+    def _debit_amounts(self, partial_move_line_vals, amount, amount_converted, force_company_currency=False):
+        """
+            Set the AA on pnl accounts
+        """
+        account_analytic_id = self.env.context.get("account_analytic_id")
+        if account_analytic_id and partial_move_line_vals.get('account_id',False):
+            account = self.env['account.account'].browse(partial_move_line_vals['account_id'])
+            if account._check_account_pnl():
+                partial_move_line_vals.update({"analytic_account_id": account_analytic_id})
+        return super()._debit_amounts(partial_move_line_vals, amount, amount_converted, force_company_currency=False)
+
+    def _create_account_move(self, balancing_account=False, amount_to_balance=0, bank_payment_method_diffs=None):
+        """
+            Inherited to check AA in POS config and add it to context,
+            so this AA will be used in _debit_amounts() and _credit_amounts() based on account_type ie pnl
         """
         account_analytic_id = self.config_id.account_analytic_id
         if account_analytic_id:
-            return super(PosSession,self.with_context(account_analytic_id=account_analytic_id.id))._get_sale_vals(key, amount, amount_converted, tax_amount)
-        return super()._get_sale_vals(key, amount, amount_converted, tax_amount)
+            return super(
+                PosSession,
+                self.with_context(account_analytic_id=account_analytic_id.id),
+            )._create_account_move(balancing_account=False, amount_to_balance=0, bank_payment_method_diffs=None)
+        return super()._create_account_move(balancing_account=False, amount_to_balance=0, bank_payment_method_diffs=None)
+
+
+    # def _get_sale_vals(self, key, amount, amount_converted):
+    #     """The method that allowed to add the analytic account to the sales items
+    #     has been dropped in v13, so we have to add it in the moment the sales
+    #     items values are prepared.
+    #     """
+    #     account_analytic_id = self.config_id.account_analytic_id
+    #     if account_analytic_id:
+    #         return super(
+    #             PosSession,
+    #             self.with_context(account_analytic_id=account_analytic_id.id),
+    #         )._get_sale_vals(key, amount, amount_converted)
+    #     return super()._get_sale_vals(key, amount, amount_converted)
