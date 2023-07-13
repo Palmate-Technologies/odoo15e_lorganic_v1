@@ -32,8 +32,5 @@ class PosSession(models.Model):
         """
         account_analytic_id = self.config_id.account_analytic_id
         if account_analytic_id:
-            return super(
-                PosSession,
-                self.with_context(account_analytic_id=account_analytic_id.id),
-            )._get_sale_vals(key, amount, amount_converted)
+            return super(PosSession,self.with_context(account_analytic_id=account_analytic_id.id))._get_sale_vals(key, amount, amount_converted)
         return super()._get_sale_vals(key, amount, amount_converted)
